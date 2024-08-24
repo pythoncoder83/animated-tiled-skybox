@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=3 uid="uid://chmbc3rm36gkf"]
+
+[ext_resource type="Shader" path="res://AnimSky/animsky.gdshader" id="1_1kweb"]
+[ext_resource type="Texture2D" uid="uid://bg443ysvbc8ur" path="res://AnimSky/testicon.png" id="2_q668n"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2cr0e"]
+shader = ExtResource("1_1kweb")
+shader_parameter/scaleX = 20.0
+shader_parameter/scaleY = 10.0
+shader_parameter/offsetSpeedX = 0.05
+shader_parameter/offsetSpeedY = 0.05
+shader_parameter/texture = ExtResource("2_q668n")
+
+[sub_resource type="Sky" id="Sky_2ru2c"]
+sky_material = SubResource("ShaderMaterial_2cr0e")
+
+[sub_resource type="Environment" id="Environment_yv2h7"]
+background_mode = 2
+sky = SubResource("Sky_2ru2c")
+ambient_light_source = 3
+reflected_light_source = 2
+ssao_power = 1.72305
+ssil_radius = 16.0
+fog_density = 0.0285
+
+[sub_resource type="QuadMesh" id="QuadMesh_ig8vf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_maqma"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vay3a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_87qkf"]
+metallic = 1.0
+metallic_specular = 1.0
+roughness = 0.0
+refraction_scale = -1.0
+
+[node name="AnimSky" type="Node3D"]
+
+[node name="Sky" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_yv2h7")
+
+[node name="SkyCam" type="Camera3D" parent="."]
+transform = Transform3D(0.723293, 0.386006, -0.572579, 2.16159e-08, 0.829174, 0.55899, 0.690542, -0.404314, 0.599736, -10.0716, 11.8549, 6.89959)
+
+[node name="Light" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.71074, 0.377811, 0.593386, 0.606107, -0.0992467, 0.789167, 0.357048, 0.920548, -0.158455, 11.7205, 6.76265, -13.3794)
+shadow_enabled = true
+shadow_bias = 0.0
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(27.4887, 0, 0, 0, -1.20333e-06, 1, 0, -27.5291, -4.37114e-08, 0.464863, -0.764938, -5.54689)
+mesh = SubResource("QuadMesh_ig8vf")
+skeleton = NodePath("../MeshInstance3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_maqma")
+
+[node name="ReflectiveCube" type="MeshInstance3D" parent="."]
+transform = Transform3D(14.3578, 0.00035566, -0.392572, -0.000291581, 11.7741, 3.1304e-05, 0.459676, -3.2827e-05, 13.4121, -0.106461, 5.74066, -5.86513)
+mesh = SubResource("BoxMesh_vay3a")
+skeleton = NodePath("../MeshInstance3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_87qkf")
